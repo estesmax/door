@@ -18,10 +18,10 @@ build-compose-image:
 	cd -
 
 deploy: build-image build-compose-image
-	docker run -d --rm \
+	docker run -d \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v $(PWD)/docker-compose.yml:$(PWD)/docker-compose.yml:ro \
 		-w $(PWD) \
 		--restart=always \
-		docker/compose:1.24.1 \
+		jchorl/compose \
 		up
