@@ -9,16 +9,22 @@ services:
   app:
     image: python:3.8
     command: ["sh", "-c", "pip install -r requirements.txt && python3 door.py"]
+    privileged: true
     ports:
       - "8000:8000"
     environment:
         FLASK_ENV: "production"
+    devices:
+      - "/dev/gpiomem:/dev/gpiomem"
     networks:
       - door
     volumes:
       - type: bind
         source: .
         target: /usr/src/app
+      - type: bind
+        source: /sys
+        target: /sys
     working_dir: /usr/src/app
     depends_on:
       - redis
@@ -26,12 +32,18 @@ services:
   celeryworker:
     image: python:3.8
     command: ["sh", "-c", "pip install -r requirements.txt && celery worker -A door.celery --loglevel=info"]
+    privileged: true
     networks:
       - door
+    devices:
+      - "/dev/gpiomem:/dev/gpiomem"
     volumes:
       - type: bind
         source: .
         target: /usr/src/app
+      - type: bind
+        source: /sys
+        target: /sys
     working_dir: /usr/src/app
     depends_on:
       - redis

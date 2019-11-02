@@ -9,13 +9,19 @@ dev:
 		docker/compose:1.24.1 \
 		-f docker-compose-dev.yml up
 
-build:
+build-image:
 	docker build -t jchorl/door .
 
-deploy: build
-	docker run -it --rm \
+build-compose-image:
+	cd ../compose
+	docker build -t jchorl/compose .
+	cd -
+
+deploy: build-image build-compose-image
+	docker run -d --rm \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v $(PWD)/docker-compose.yml:$(PWD)/docker-compose.yml:ro \
 		-w $(PWD) \
+		--restart=always \
 		docker/compose:1.24.1 \
 		up
