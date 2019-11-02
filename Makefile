@@ -12,12 +12,7 @@ dev:
 build-image:
 	docker build -t jchorl/door .
 
-build-compose-image:
-	cd ../compose
-	docker build -t jchorl/compose .
-	cd -
-
-deploy: build-image build-compose-image
+deploy: build-image
 	docker run -d \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		-v $(PWD)/docker-compose.yml:$(PWD)/docker-compose.yml:ro \
