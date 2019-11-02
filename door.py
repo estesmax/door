@@ -39,10 +39,6 @@ celery = make_celery(app)
 
 @celery.task(name="open_door")
 def open_door():
-    print("should open door now")
-
-@app.route("/")
-def hello():
     GPIO.output(pin,1)
     time.sleep(.25)
     GPIO.output(pin,0)
@@ -56,6 +52,9 @@ def hello():
     time.sleep(3)
     GPIO.output(pin,0)
     print("Open end")
+
+@app.route("/")
+def hello():
     open_door.apply_async()
     return "opened"
 
