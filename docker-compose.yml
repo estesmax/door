@@ -6,10 +6,6 @@ services:
       - "6379"
     networks:
       - door
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
   app:
     image: python:3.8
     command: ["sh", "-c", "pip install -r requirements.txt && python3 hi.py"]
@@ -24,10 +20,6 @@ services:
     working_dir: /usr/src/app
     depends_on:
       - redis
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
 
 networks:
   door:
