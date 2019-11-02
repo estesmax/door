@@ -7,4 +7,4 @@ dev:
 		-v $(PWD):$(PWD):ro \
 		-w $(PWD) \
 		docker/compose:1.24.1 \
-		up
+		-f docker-compose-dev.yml up
