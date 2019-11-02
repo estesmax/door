@@ -8,10 +8,17 @@ services:
       - door
   app:
     image: jchorl/door
+    privileged: true
     ports:
       - "8000:8000"
+    devices:
+      - "/dev/gpiomem:/dev/gpiomem"
     environment:
         FLASK_ENV: "production"
+    volumes:
+      - type: bind
+        source: /sys
+        target: /sys
     networks:
       - door
     depends_on:
@@ -19,7 +26,14 @@ services:
       - celeryworker
   celeryworker:
     image: jchorl/door
+    privileged: true
     command: ["celery", "worker", "-A", "door.celery", "--loglevel=info"]
+    volumes:
+      - type: bind
+        source: /sys
+        target: /sys
+    devices:
+      - "/dev/gpiomem:/dev/gpiomem"
     networks:
       - door
     depends_on:
