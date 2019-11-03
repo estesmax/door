@@ -6,7 +6,7 @@ import time
 GPIO.cleanup()
 GPIO.setmode(GPIO.BOARD)
 
-pin = 5
+pin = 11
 
 GPIO.setup(pin,GPIO.OUT)
 GPIO.output(pin,0)
