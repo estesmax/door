@@ -9,7 +9,7 @@ GPIO.setmode(GPIO.BOARD)
 pin = 5
 
 GPIO.setup(pin,GPIO.OUT)
-GPIO.output(pin,0)
+GPIO.output(pin,1)
 
 print(pin)
 
@@ -39,18 +39,18 @@ celery = make_celery(app)
 
 @celery.task(name="open_door")
 def open_door():
-    GPIO.output(pin,1)
-    time.sleep(.25)
     GPIO.output(pin,0)
     time.sleep(.25)
     GPIO.output(pin,1)
     time.sleep(.25)
     GPIO.output(pin,0)
+    time.sleep(.25)
+    GPIO.output(pin,1)
     time.sleep(.25)
     print("Open start")
-    GPIO.output(pin,1)
-    time.sleep(3)
     GPIO.output(pin,0)
+    time.sleep(3)
+    GPIO.output(pin,1)
     print("Open end")
 
 @app.route("/")
